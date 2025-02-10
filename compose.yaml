@@ -1,0 +1,10 @@
+services:
+  log-server:
+    build: .
+    ports:
+      - "8000:8000"
+    volumes:
+      - ./app:/app
+      - ./data:/data
+    command: |
+      uvicorn main:app --host 0.0.0.0 --reload
