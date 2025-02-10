@@ -56,10 +56,8 @@ class Run(Base):
     project: Mapped["Project"] = relationship(
         foreign_keys=[project_id]
     )
-    protocol_id: Mapped[int] = mapped_column(ForeignKey("protocols.id"))
-    protocol: Mapped["Protocol"] = relationship(
-        foreign_keys=[protocol_id]
-    )
+    file_name: Mapped[str] = mapped_column(String(256))
+    checksum: Mapped[str] = mapped_column(String(256))
     user_id: Mapped[int] = mapped_column(
         ForeignKey("users.id")
     )
@@ -88,22 +86,6 @@ class Run(Base):
     # )
     status: Mapped[str] = mapped_column(String(10))
     storage_address: Mapped[str] = mapped_column(String(256))
-
-
-class Protocol(Base):
-    __tablename__ = "protocols"
-    id: Mapped[int] = mapped_column(primary_key=True)
-    user_id: Mapped[int] = mapped_column(
-        ForeignKey("users.id")
-    )
-    user: Mapped["User"] = relationship(
-        foreign_keys=[user_id]
-    )
-    added_at: Mapped[str] = mapped_column(
-        Timestamp(),
-    )
-    name: Mapped[str] = mapped_column(String(256))
-    checksum: Mapped[str] = mapped_column(String(256))
 
 
 class Process(Base):

@@ -23,22 +23,11 @@ class ProjectResponse(BaseModel):
         from_attributes = True
 
 
-class ProtocolResponse(BaseModel):
-    id: int
-    user_id: int
-    added_at: datetime
-    name: str
-    checksum: str
-    # user: Optional[UserResponse]  # リレーション
-
-    class Config:
-        from_attributes = True
-
-
 class RunResponse(BaseModel):
     id: int
     project_id: int
-    protocol_id: int
+    file_name: str
+    checksum: str
     user_id: int
     added_at: datetime
     started_at: Optional[datetime]
@@ -46,7 +35,6 @@ class RunResponse(BaseModel):
     status: str
     storage_address: str
     # project: Optional[ProjectResponse]  # リレーション
-    # protocol: Optional[ProtocolResponse]  # リレーション
     # user: Optional[UserResponse]  # リレーション
 
     class Config:
@@ -57,7 +45,8 @@ class RunResponseWithProjectName(BaseModel):
     id: int
     project_id: int
     project_name: str
-    protocol_id: int
+    file_name: str
+    checksum: str
     user_id: int
     added_at: datetime
     started_at: Optional[datetime]
@@ -65,7 +54,6 @@ class RunResponseWithProjectName(BaseModel):
     status: str
     storage_address: str
     # project: Optional[ProjectResponse]  # リレーション
-    # protocol: Optional[ProtocolResponse]  # リレーション
     # user: Optional[UserResponse]  # リレーション
 
     class Config:
