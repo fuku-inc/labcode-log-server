@@ -1,10 +1,12 @@
 from sqlalchemy.orm import Mapped
 from sqlalchemy.orm import mapped_column
 from sqlalchemy.orm import relationship
+from sqlalchemy.types import DateTime
 from sqlalchemy import ForeignKey
 from sqlalchemy.types import String
 from sqlalchemy.types import TIMESTAMP as Timestamp
 from define_db.database import Base, engine
+from datetime import datetime
 
 
 class User(Base):
@@ -67,15 +69,15 @@ class Run(Base):
     added_at: Mapped[str] = mapped_column(
         Timestamp(),
     )
-    started_at: Mapped[str] = mapped_column(
-        Timestamp(),
-        # DateTime(),
+    started_at: Mapped[datetime] = mapped_column(
+        # Timestamp(),
+        DateTime(),
         nullable=True,
         # default=None
     )
-    finished_at: Mapped[str] = mapped_column(
-        Timestamp(),
-        # DateTime(),
+    finished_at: Mapped[datetime] = mapped_column(
+        # Timestamp(),
+        DateTime(),
         nullable=True,
         # default=None
     )
@@ -113,12 +115,14 @@ class Operation(Base):
     parent: Mapped["Operation"] = relationship(
         foreign_keys=[parent_id]
     )
-    started_at: Mapped[str] = mapped_column(
-        Timestamp(),
+    started_at: Mapped[datetime] = mapped_column(
+        # Timestamp(),
+        DateTime(),
         nullable=True
     )
-    finished_at: Mapped[str] = mapped_column(
-        Timestamp(),
+    finished_at: Mapped[datetime] = mapped_column(
+        # Timestamp(),
+        DateTime(),
         nullable=True
     )
     status: Mapped[str] = mapped_column(String(10))

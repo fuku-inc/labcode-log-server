@@ -5,6 +5,7 @@ from fastapi import APIRouter
 from fastapi import Form
 from fastapi import HTTPException
 from typing import Optional
+from datetime import datetime
 
 router = APIRouter()
 
@@ -118,9 +119,11 @@ def patch(id: int, attribute: str = Form(), new_value: str = Form()):
                     raise HTTPException(status_code=400, detail=f"Parent with id {new_value} not found")
                 operation.parent_id = new_value
             case "started_at":
-                operation.started_at = new_value
+                new_datetime = datetime.fromisoformat(new_value)
+                operation.started_at = new_datetime
             case "finished_at":
-                operation.finished_at = new_value
+                new_datetime = datetime.fromisoformat(new_value)
+                operation.finished_at = new_datetime
             case "status":
                 operation.status = new_value
             case "storage_address":

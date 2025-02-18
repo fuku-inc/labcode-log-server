@@ -112,6 +112,14 @@ def patch(id: int, attribute: str = Form(), new_value: str = Form()):
                 run.user_id = new_value
             case "storage_address":
                 run.storage_address = new_value
+            case "started_at":
+                new_datetime = datetime.fromisoformat(new_value)
+                run.started_at = new_datetime
+            case "finished_at":
+                new_datetime = datetime.fromisoformat(new_value)
+                run.finished_at = new_datetime
+            case "status":
+                run.status = new_value
             case _:
                 raise HTTPException(status_code=400, detail="Invalid attribute")
         session.commit()
