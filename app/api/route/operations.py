@@ -18,6 +18,9 @@ def create(
         finished_at: Optional[str] = Form(default=None),
         status: str = Form(default="not started"),
         storage_address: str = Form(),
+        is_transport: bool = Form(),
+        is_data: bool = Form()
+
 ):
     with SessionLocal() as session:
         # Check process existence
@@ -37,6 +40,8 @@ def create(
             finished_at=finished_at,
             status=status,
             storage_address=storage_address,
+            is_transport=is_transport,
+            is_data=is_data
         )
         session.add_all([operation_to_add])
         session.commit()
@@ -63,6 +68,8 @@ def update(
         finished_at: Optional[str] = Form(default=None),
         status: str = Form(default="not started"),
         storage_address: str = Form(),
+        is_transport: bool = Form(),
+        is_data: bool = Form()
 ):
     with SessionLocal() as session:
         operation = session.query(Operation).filter(Operation.id == id).first()
@@ -84,6 +91,8 @@ def update(
         operation.finished_at = finished_at
         operation.status = status
         operation.storage_address = storage_address
+        operation.is_transport = is_transport
+        operation.is_data = is_data
         session.commit()
         session.refresh(operation)
         return OperationResponse.model_validate(operation)

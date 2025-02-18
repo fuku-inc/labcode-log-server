@@ -123,6 +123,29 @@ class Operation(Base):
     )
     status: Mapped[str] = mapped_column(String(10))
     storage_address: Mapped[str] = mapped_column(String(256))
+    is_transport: Mapped[bool] = mapped_column(
+        nullable=False
+    )
+    is_data: Mapped[bool] = mapped_column(
+        nullable=False
+    )
+
+
+class Edge(Base):
+    __tablename__ = "edges"
+    id: Mapped[int] = mapped_column(primary_key=True)
+    run_id: Mapped[int] = mapped_column(ForeignKey("runs.id"))
+    run: Mapped["Run"] = relationship(
+        foreign_keys=[run_id]
+    )
+    from_id: Mapped[int] = mapped_column(ForeignKey("operations.id"))
+    from_: Mapped["Operation"] = relationship(
+        foreign_keys=[from_id]
+    )
+    to_id: Mapped[int] = mapped_column(ForeignKey("operations.id"))
+    to: Mapped["Operation"] = relationship(
+        foreign_keys=[to_id]
+    )
 
 
 if __name__ == "__main__":

@@ -71,12 +71,15 @@ class ProcessResponse(BaseModel):
 
 class OperationResponse(BaseModel):
     id: int
+    name: str
     process_id: int
     parent_id: Optional[int]
     started_at: Optional[datetime]
     finished_at: Optional[datetime]
     status: str
     storage_address: str
+    is_transport: bool
+    is_data: bool
     # process: Optional["ProcessResponse"]  # リレーション
     # parent: Optional["OperationResponse"]  # 自己リレーション
 
@@ -89,6 +92,7 @@ class OperationResponse(BaseModel):
 
 class OperationResponseWithProcessStorageAddress(BaseModel):
     id: int
+    name: str
     process_id: int
     parent_id: Optional[int]
     started_at: Optional[datetime]
@@ -104,3 +108,15 @@ class OperationResponseWithProcessStorageAddress(BaseModel):
 
 # # 自己参照モデルのための更新
 # OperationResponse.update_forward_refs()
+
+
+class EdgeResponse(BaseModel):
+    id: int
+    run_id: int
+    from_id: int
+    to_id: int
+    # from_: Optional[OperationResponse]  # リレーション
+    # to: Optional[OperationResponse]  # リレーション
+
+    class Config:
+        from_attributes = True
