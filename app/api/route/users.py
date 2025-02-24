@@ -50,7 +50,7 @@ def read_runs(id: int):
         user = session.query(User).filter(User.id == id).first()
         if not user:
             raise HTTPException(status_code=404, detail="User not found")
-        runs = session.query(Run).options(selectinload(Run.project)).filter(Run.user_id == id).all()
+        runs = session.query(Run).options(selectinload(Run.project)).filter(Run.user_id == id, Run.deleted_at.is_(None)).all()
         for run in runs:
             run.project_name = run.project.name
         # return [run for run, _ in runs]

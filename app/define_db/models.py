@@ -88,6 +88,10 @@ class Run(Base):
     # )
     status: Mapped[str] = mapped_column(String(10))
     storage_address: Mapped[str] = mapped_column(String(256))
+    deleted_at: Mapped[datetime] = mapped_column(
+        DateTime(),
+        nullable=True,
+    )
 
 
 class Process(Base):

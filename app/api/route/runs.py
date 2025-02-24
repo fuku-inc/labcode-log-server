@@ -45,7 +45,7 @@ def create(
 @router.get("/runs/{id}", tags=["runs"], response_model=RunResponse)
 def read(id: int):
     with SessionLocal() as session:
-        run = session.query(Run).filter(Run.id == id).first()
+        run = session.query(Run).filter(Run.id == id, Run.deleted_at.is_(None)).first()
         if not run:
             raise HTTPException(status_code=404, detail="Run not found")
         return RunResponse.model_validate(run)
@@ -54,6 +54,9 @@ def read(id: int):
 @router.get("/runs/{id}/operations", tags=["runs"], response_model=List[OperationResponseWithProcessStorageAddress])
 def read_operations(id: int):
     with SessionLocal() as session:
+        run = session.query(Run).filter(Run.id == id, Run.deleted_at.is_(None)).first()
+        if not run:
+            raise HTTPException(status_code=404, detail="Run not found")
         operations = session.query(
             Operation,
             Process.name.label('process_name'),
@@ -72,7 +75,7 @@ def read_operations(id: int):
 @router.put("/runs/{id}", tags=["runs"], response_model=RunResponse)
 def update(id: int, project_id: int = Form(), file_name: str = Form(), checksum: str = Form(), user_id: int = Form(), storage_address: str = Form()):
     with SessionLocal() as session:
-        run = session.query(Run).filter(Run.id == id).first()
+        run = session.query(Run).filter(Run.id == id, Run.deleted_at.is_(None)).first()
         # Check run existence
         if not run:
             raise HTTPException(status_code=404, detail="Run not found")
@@ -97,7 +100,7 @@ def update(id: int, project_id: int = Form(), file_name: str = Form(), checksum:
 @router.patch("/runs/{id}", tags=["runs"], response_model=RunResponse)
 def patch(id: int, attribute: str = Form(), new_value: str = Form()):
     with SessionLocal() as session:
-        run = session.query(Run).filter(Run.id == id).first()
+        run = session.query(Run).filter(Run.id == id, Run.deleted_at.is_(None)).first()
         if not run:
             raise HTTPException(status_code=404, detail="Run not found")
         match attribute:
@@ -135,9 +138,10 @@ def patch(id: int, attribute: str = Form(), new_value: str = Form()):
 @router.delete("/runs/{id}", tags=["runs"])
 def delete(id: int):
     with SessionLocal() as session:
-        run = session.query(Run).filter(Run.id == id).first()
+        run = session.query(Run).filter(Run.id == id, Run.deleted_at.is_(None)).first()
         if not run:
             raise HTTPException(status_code=404, detail="Run not found")
-        session.delete(run)
+        # session.delete(run)
+        run.deleted_at = datetime.now()
         session.commit()
         return {"detail": "Run deleted successfully"}

@@ -34,6 +34,7 @@ class RunResponse(BaseModel):
     finished_at: Optional[datetime]
     status: str
     storage_address: str
+    deleted_at: datetime | None
     # project: Optional[ProjectResponse]  # リレーション
     # user: Optional[UserResponse]  # リレーション
 
