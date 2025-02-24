@@ -128,6 +128,8 @@ def patch(id: int, attribute: str = Form(), new_value: str = Form()):
                 operation.status = new_value
             case "storage_address":
                 operation.storage_address = new_value
+            case "log":
+                operation.log = new_value
             case _:
                 raise HTTPException(status_code=400, detail="Invalid attribute")
         session.commit()

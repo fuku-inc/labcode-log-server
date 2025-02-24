@@ -81,6 +81,7 @@ class OperationResponse(BaseModel):
     storage_address: str
     is_transport: bool
     is_data: bool
+    log: Optional[str]
     # process: Optional["ProcessResponse"]  # リレーション
     # parent: Optional["OperationResponse"]  # 自己リレーション
 
@@ -103,6 +104,7 @@ class OperationResponseWithProcessStorageAddress(BaseModel):
     storage_address: str
     process_storage_address: str
     is_transport: bool
+    log: Optional[str]
     # process: Optional["ProcessResponse"]  # リレーション
     # parent: Optional["OperationResponse"]  # 自己リレーション
 

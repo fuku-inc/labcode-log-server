@@ -129,6 +129,7 @@ class Operation(Base):
     is_data: Mapped[bool] = mapped_column(
         nullable=False
     )
+    log: Mapped[str] = mapped_column(Text, nullable=True)
 
 
 class Edge(Base):
