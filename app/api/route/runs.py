@@ -54,13 +54,18 @@ def read(id: int):
 @router.get("/runs/{id}/operations", tags=["runs"], response_model=List[OperationResponseWithProcessStorageAddress])
 def read_operations(id: int):
     with SessionLocal() as session:
-        operations = session.query(Operation, Process.storage_address.label('process_storage_address')).join(Process).filter(Process.run_id == id).all()
+        operations = session.query(
+            Operation,
+            Process.name.label('process_name'),
+            Process.storage_address.label('process_storage_address')
+        ).join(Process).filter(Process.run_id == id).all()
         return [
             {
                 **operation.__dict__,
+                "process_name": process_name,
                 "process_storage_address": process_storage_address
             }
-            for operation, process_storage_address in operations
+            for operation, process_name, process_storage_address in operations
         ]
 
 

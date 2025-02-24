@@ -93,6 +93,7 @@ class Run(Base):
 class Process(Base):
     __tablename__ = "processes"
     id: Mapped[int] = mapped_column(primary_key=True)
+    name: Mapped[str] = mapped_column(String(256))
     run_id: Mapped[int] = mapped_column(ForeignKey("runs.id"))
     run: Mapped["Run"] = relationship(
         foreign_keys=[run_id]

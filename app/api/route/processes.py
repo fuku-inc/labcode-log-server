@@ -9,13 +9,18 @@ router = APIRouter()
 
 
 @router.post("/processes/", tags=["processes"], response_model=ProcessResponse)
-def create(run_id: int = Form(), storage_address: str = Form()):
+def create(
+        name: str = Form(),
+        run_id: int = Form(),
+        storage_address: str = Form()
+):
     with SessionLocal() as session:
         # Check run existence
         run = session.query(Run).filter(Run.id == run_id).first()
         if not run:
             raise HTTPException(status_code=400, detail=f"Run with id {run_id} not found")
         process_to_add = Process(
+            name=name,
             run_id=run_id,
             storage_address=storage_address
         )
@@ -35,7 +40,12 @@ def read(id: int):
 
 
 @router.put("/processes/{id}", tags=["processes"], response_model=ProcessResponse)
-def update(id: int, run_id: int = Form(), storage_address: str = Form()):
+def update(
+        id: int,
+        name: str = Form(),
+        run_id: int = Form(),
+        storage_address: str = Form()
+):
     with SessionLocal() as session:
         # Check process existence
         process = session.query(Process).filter(Process.id == id).first()
@@ -45,6 +55,7 @@ def update(id: int, run_id: int = Form(), storage_address: str = Form()):
         run = session.query(Run).filter(Run.id == run_id).first()
         if not run:
             raise HTTPException(status_code=400, detail=f"Run with id {run_id} not found")
+        process.name = name
         process.run_id = run_id
         process.storage_address = storage_address
         session.commit()
@@ -59,6 +70,8 @@ def patch(id: int, attribute: str = Form(), new_value: str = Form()):
         if not process:
             raise HTTPException(status_code=404, detail="Process not found")
         match attribute:
+            case "name":
+                process.name = new_value
             case "run_id":
                 # Check run existence
                 run = session.query(Run).filter(Run.id == new_value).first()

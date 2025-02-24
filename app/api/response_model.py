@@ -62,6 +62,7 @@ class RunResponseWithProjectName(BaseModel):
 
 class ProcessResponse(BaseModel):
     id: int
+    name: str
     run_id: int
     storage_address: str
 
@@ -94,6 +95,7 @@ class OperationResponseWithProcessStorageAddress(BaseModel):
     id: int
     name: str
     process_id: int
+    process_name: str
     parent_id: Optional[int]
     started_at: Optional[datetime]
     finished_at: Optional[datetime]
