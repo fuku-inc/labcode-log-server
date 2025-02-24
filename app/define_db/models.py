@@ -43,11 +43,11 @@ class Project(Base):
     user: Mapped["User"] = relationship(
         foreign_keys=[user_id]
     )
-    created_at: Mapped[str] = mapped_column(
-        Timestamp(),
+    created_at: Mapped[datetime] = mapped_column(
+        DateTime(),
     )
-    updated_at: Mapped[str] = mapped_column(
-        Timestamp(),
+    updated_at: Mapped[datetime] = mapped_column(
+        DateTime(),
     )
 
 
