@@ -4,7 +4,7 @@ from sqlalchemy.orm import relationship
 from sqlalchemy.types import DateTime
 from sqlalchemy import ForeignKey
 from sqlalchemy.types import String
-from sqlalchemy.types import TIMESTAMP as Timestamp
+from sqlalchemy.types import Text
 from define_db.database import Base, engine
 from datetime import datetime
 
@@ -66,8 +66,8 @@ class Run(Base):
     user: Mapped["User"] = relationship(
         foreign_keys=[user_id]
     )
-    added_at: Mapped[str] = mapped_column(
-        Timestamp(),
+    added_at: Mapped[datetime] = mapped_column(
+        DateTime(),
     )
     started_at: Mapped[datetime] = mapped_column(
         DateTime(),
