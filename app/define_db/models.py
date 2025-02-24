@@ -70,22 +70,13 @@ class Run(Base):
         Timestamp(),
     )
     started_at: Mapped[datetime] = mapped_column(
-        # Timestamp(),
         DateTime(),
         nullable=True,
-        # default=None
     )
     finished_at: Mapped[datetime] = mapped_column(
-        # Timestamp(),
         DateTime(),
         nullable=True,
-        # default=None
     )
-    # finished_at: Mapped[str] = mapped_column(
-    #     Timestamp(),
-    #     nullable=True,
-    #     default=""
-    # )
     status: Mapped[str] = mapped_column(String(10))
     storage_address: Mapped[str] = mapped_column(String(256))
     deleted_at: Mapped[datetime] = mapped_column(
