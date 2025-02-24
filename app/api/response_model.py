@@ -102,6 +102,7 @@ class OperationResponseWithProcessStorageAddress(BaseModel):
     status: str
     storage_address: str
     process_storage_address: str
+    is_transport: bool
     # process: Optional["ProcessResponse"]  # リレーション
     # parent: Optional["OperationResponse"]  # 自己リレーション
 
