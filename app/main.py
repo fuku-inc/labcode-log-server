@@ -7,7 +7,7 @@ app = FastAPI()
 app.add_middleware(
     CORSMiddleware,
     # 許可するオリジン（フロントエンドのURL）
-    allow_origins=["http://localhost:5173"],  # Viteのデフォルトポート
+    allow_origins=["http://labcode-web-app.com:5173"],
     allow_credentials=True,
     allow_methods=["*"],  # 全てのHTTPメソッドを許可
     allow_headers=["*"],  # 全てのヘッダーを許可
